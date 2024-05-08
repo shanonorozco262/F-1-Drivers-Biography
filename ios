@@ -1,0 +1,42 @@
+import UIKit
+
+struct Driver {
+    let name: String
+    let biography: String
+}
+
+class DriversViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
+
+    var drivers: [Driver] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchDriverData()
+    }
+
+    func fetchDriverData() {
+        // Make API request to fetch driver data
+        // For simplicity, I'll just use a hardcoded example
+        let driver1 = Driver(name: "Lewis Hamilton", biography: "Born on January 7, 1985, Lewis Hamilton is a British racing driver.")
+        let driver2 = Driver(name: "Max Verstappen", biography: "Born on September 30, 1997, Max Verstappen is a Dutch-Belgian racing driver.")
+        
+        drivers = [driver1, driver2]
+        
+        tableView.reloadData()
+    }
+}
+
+extension DriversViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return drivers.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DriverCell", for: indexPath)
+        let driver = drivers[indexPath.row]
+        cell.textLabel?.text = driver.name
+        cell.detailTextLabel?.text = driver.biography
+        return cell
+    }
+}
